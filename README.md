@@ -6,6 +6,7 @@ This project intent to up a little Kubernetes cluster environment in local machi
 # Table of Contents
 * [Dependencies](#dependencies)
 * [How use it](#how-use-it)
+* [Roadmap](#roadmap)
 
 
 # Dependencies
@@ -13,25 +14,26 @@ This project intent to up a little Kubernetes cluster environment in local machi
 ## List
 * Vagrant
 * VirtualBox (actualy)
-* vagrant-disksize vagrant plugin
+* vagrant plugins
 
-## vagrant-disksize plugin
+# vagrant plugin
 vagrant plugin install vagrant-disksize
-
 
 # How use it
 ## Create images, up then and take snapshots
 ```bash
 $ ./cli build
+$ ./cli start-master
 ```
-After, can enter in **VMs**
+open with browser: [http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login)
+and login with token showed in output of master provision
+
+After, in **worker** VM
 ```bash
-# to enter in master
-$ vagrant ssh master
 # to enter in worker
 $ vagrant ssh worker
 ```
-
+and run the `kubeadm join` command as showed in output of `./cli start-master`
 
 ## Restore initial images
 ```bash
@@ -41,3 +43,6 @@ $ ./cli restore
 ```bash
 $ ./cli restore
 ```
+
+# Roadmap
+* generate certificates before run `kubeadm init`

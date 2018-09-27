@@ -21,7 +21,4 @@ apt-get install -y kubelet kubeadm kubectl
 echo "protect from automatic upgrades"
 apt-mark hold kubelet kubeadm kubectl
 kubeadm config images pull
-
 echo "Kubernetes installed"
-
-# network plungin
