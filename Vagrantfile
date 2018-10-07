@@ -30,6 +30,10 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.define "master" do | m |
+
+    # m.vm.network "public_network", ip: "192.168.0.17", bridge: "wlp2s0"
+
+
     # m.vm.hostname "master"
     m.vm.provider "virtualbox" do |vb|
       vb.memory = 2048

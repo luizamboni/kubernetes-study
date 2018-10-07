@@ -1,5 +1,8 @@
 #/bin/bash
 
+swapoff -a
+# echo 'Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"' >> /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
 echo "Disabling IPv6"
 echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
 echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
@@ -16,9 +19,14 @@ echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" >> /etc/apt/sources.
 apt-get update
 
 # install kubernetes tools
-apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y --allow-downgrades kubernetes-cni=0.6.0-00
+
+K8_VERSION=1.11.2-00
+# K8_VERSION=1.12.1-02
+
+apt-get install -y --allow-downgrades kubelet=$K8_VERSION kubeadm=$K8_VERSION kubectl=$K8_VERSION
 
 echo "protect from automatic upgrades"
 apt-mark hold kubelet kubeadm kubectl
-kubeadm config images pull
+
 echo "Kubernetes installed"

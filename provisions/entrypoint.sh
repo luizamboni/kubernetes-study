@@ -1,9 +1,10 @@
 #!/bin/bash
 
 if [ "$1" = 'master' ]; then
-# # kubeadm config images pull
 
   printf "current user: $USER"
+  
+  kubeadm config images pull
 
   printf "\n\n[STEP] init master"
   sudo kubeadm init --apiserver-advertise-address $2 \
@@ -32,7 +33,6 @@ if [ "$1" = 'master' ]; then
   sleep 20
 
   printf "\n\n[STEP] wait dns pods is running (WAIT all realy)"
-
   ANY_POD_NOT_RUNNING=$(kubectl get pods --all-namespaces --field-selector=status.phase!=Running)
   while [ "$ANY_POD_NOT_RUNNING" != "" ]; do
     echo "$ANY_POD_NOT_RUNNING";
