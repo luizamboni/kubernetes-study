@@ -6,6 +6,7 @@ This project intent to up a little Kubernetes cluster environment in local machi
 # Table of Contents
 * [Dependencies](#dependencies)
 * [How use it](#how-use-it)
+* [How To](#how-to)
 * [Roadmap](#roadmap)
 
 
@@ -44,6 +45,15 @@ $ ./cli restore
 ```bash
 $ ./cli restore
 ```
+
+
+## How to
+### Acess internal service using kubernetes proxy:
+
+
+http://localhost:**PROXY_PORT**/api/v1/namespaces/**NAMESPACE**/services/**SERVICE**:**PORT**/proxy/
+
+Nginx Example:[http://localhost:8001/api/v1/namespaces/default/services/nginx-78f5d695bd-8kpfv:80/proxy/](http://localhost:8001/api/v1/namespaces/default/services/nginx-78f5d695bd-8kpfv:80/proxy/)
 
 # Roadmap
 * generate certificates before run `kubeadm init`
