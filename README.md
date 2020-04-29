@@ -17,6 +17,11 @@ This project intent to up a little Kubernetes cluster environment in local machi
 * VirtualBox (actualy)
 * vagrant plugins
 
+# Uefi workaround
+[virtualBox-secure-boot-ubuntu-fail.html](virtualBox-secure-boot-ubuntu-fail.html)
+Original posted [here] 
+(https://stegard.net/2016/10/virtualbox-secure-boot-ubuntu-fail/)
+
 # vagrant plugin
 vagrant plugin install vagrant-disksize
 
