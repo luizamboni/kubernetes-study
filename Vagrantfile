@@ -1,7 +1,20 @@
+require 'ipaddr'
 
 $token = "icdy68.op8oi8tgmf2lgz9n"
-$master_ip = "192.168.99.20"
-$rootdir = Dir.pwd
+$inital_private_ip = IPAddr.new("192.168.99.20")
+$initial_public_ip =  IPAddr.new("192.168.0.17")
+workers = 2
+
+$vagrant_dir = "/home/vagrant"
+
+$set_environment_variables = <<-SHELL
+
+  echo "export vagrant_dir=#{$vagrant_dir}"     >  /etc/profile.d/vagrant-vars.sh
+  echo "export token=#{$token}"                >>  /etc/profile.d/vagrant-vars.sh
+  echo "export master_ip=#{$inital_private_ip.to_s}"        >>  /etc/profile.d/vagrant-vars.sh
+
+SHELL
+
 
 Vagrant.configure("2") do |config|
 
@@ -10,63 +23,63 @@ Vagrant.configure("2") do |config|
   # minimal, disk can be only increased.
   config.disksize.size = '5GB'
 
-  # add file entrypoint.sh
-  config.vm.provision "entrypoint", 
-          type: "file",
-          source: "#{$rootdir}/provisions/entrypoint.sh", 
-          destination: "$HOME/entrypoint.sh",
-          run: "never"
+  config.vm.provision "variables", type: "shell", inline: $set_environment_variables, run: "always"
 
-  
-  # install the last docker version
-  config.vm.provision "docker", type: "docker", run: "never"
+  config.vm.synced_folder "provisions/", "/home/vagrant/provisions/"
 
 
-  # install kubelet, kubectl and kubeadm
-  config.vm.provision "dependencies", 
-           type: "shell", 
-           path: "provisions/dependencies.sh",
-           run: "never"
+  config.vm.provision "dependencies", type: "shell", inline: "/home/vagrant/provisions/commons/index.sh", privileged: true, run: "never"
 
 
   config.vm.define "master" do | m |
 
-    # m.vm.network "public_network", ip: "192.168.0.17", bridge: "wlp2s0"
-
-
-    # m.vm.hostname "master"
+    # m.vm.network "public_network", ip: "192.168.0.17", # bridge: "wlp2s0"
+    
+    
+    m.vm.hostname = "master"
     m.vm.provider "virtualbox" do |vb|
       vb.memory = 2048
       vb.cpus = 2
     end
 
     m.disksize.size = '10GB'
+    m.vm.network :public_network , ip: $initial_public_ip.to_s
+    m.vm.network :private_network, ip: $inital_private_ip.to_s
 
-    m.vm.network :private_network, ip: $master_ip
-    m.vm.network "forwarded_port", guest: 8001, host: 8001
-    m.vm.provision "start",
-                   type: "shell", 
-                   inline: "./entrypoint.sh master #{$master_ip} #{$token}", 
-                   privileged: false,
-                   run: "never"
+    m.vm.network :forwarded_port, guest: 8001, host: 8001
+    m.vm.network :forwarded_port, guest: 80, host: 80
+    m.vm.provision :start, type: "shell", inline: "/home/vagrant/provisions/master/index.sh", privileged: false, run: "never"
 
   end
 
-  config.vm.define "worker" do | m |
+  private_ip = $inital_private_ip
+  public_ip  = $initial_public_ip
 
-    # m.vm.hostname "worker"
-    m.vm.provider "virtualbox" do |vb|
-      vb.memory = 1024
-      vb.cpus = 2
+  workers.times do |n|
+  
+    private_ip = private_ip.succ
+    public_ip = public_ip.succ
+    node_name = "worker-#{n}"
+
+    config.vm.define "worker-#{n}" do | m |
+
+
+      m.vm.hostname = "worker"
+      m.vm.provider "virtualbox" do |vb|
+        vb.memory = 1024
+        vb.cpus = 2
+      end
+
+      m.vm.network :private_network, ip: private_ip.to_s
+      m.vm.network :public_network , ip: public_ip.to_s
+
+      m.vm.provision "start", 
+                      type: "shell", 
+                      inline: "/home/vagrant/provisions/worker.sh",
+                      privileged: false,
+                      run: "never" 
     end
 
-    m.vm.network :private_network, ip: "192.168.99.21"
-
-    m.vm.provision "start", 
-                    type: "shell", 
-                    inline: "./entrypoint.sh worker #{$master_ip} #{$token}",
-                    privileged: false,
-                    run: "never" 
   end
 end
 

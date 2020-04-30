@@ -29,8 +29,8 @@ vagrant plugin install vagrant-disksize
 # How use it
 ## Create images, up then and take snapshots
 ```bash
-$ ./cli build
-$ ./cli start-master
+$ make build
+$ make start-master
 ```
 open with browser: [http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login](http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/login)
 and login with token showed in output of master provision
@@ -40,15 +40,15 @@ After, in **worker** VM
 # to enter in worker
 $ vagrant ssh worker
 ```
-and run the `kubeadm join` command as showed in output of `./cli start-master`
+and run the `kubeadm join` command as showed in output of `make start-master`
 
 ## Restore initial images
 ```bash
-$ ./cli restore
+$ make restore
 ```
 ## Destroy images and snapshots
 ```bash
-$ ./cli restore
+$ make restore
 ```
 
 
@@ -58,7 +58,7 @@ $ ./cli restore
 
 http://localhost:**PROXY_PORT**/api/v1/namespaces/**NAMESPACE**/services/**SERVICE**:**PORT**/proxy/
 
-Nginx Example:[http://localhost:8001/api/v1/namespaces/default/services/nginx-78f5d695bd-8kpfv:80/proxy/](http://localhost:8001/api/v1/namespaces/default/services/nginx-78f5d695bd-8kpfv:80/proxy/)
+Nginx Example:[http://localhost:8001/api/v1/namespaces/default/services/nginx:80/proxy/](http://localhost:8001/api/v1/namespaces/default/services/nginx:80/proxy/)
 
 # Roadmap
 * generate certificates before run `kubeadm init`
