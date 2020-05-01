@@ -11,9 +11,7 @@ restore:
 	vagrant snapshot restore master master_init_state --no-provision
 
 clean:
-	vagrant snapshot delete master_init_state && \
 	vagrant destroy -f
-	
 
 start-master:
-	vagrant provision master --provision-with variables,start
+	vagrant provision master --provision-with start

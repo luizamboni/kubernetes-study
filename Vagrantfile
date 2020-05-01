@@ -83,5 +83,4 @@ Vagrant.configure("2") do |config|
   end
 end
 
-# sudo kubeadm init --token icdy68.op8oi8tgmf2lgz9n --token-ttl 0 --node-name master --apiserver-advertise-address 192.168.99.20
-# sudo kubeadm join 192.168.99.20:6443 --token icdy68.op8oi8tgmf2lgz9n  --discovery-token-unsafe-skip-ca-verification --node-name worker1
+# sudo kubeadm join 192.168.99.20:6443 --token icdy68.op8oi8tgmf2lgz9n  --discovery-token-unsafe-skip-ca-verification --node-name worker-1

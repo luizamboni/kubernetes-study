@@ -10,7 +10,6 @@ sudo kubeadm init --apiserver-advertise-address $master_ip \
     --node-name master \
     --pod-network-cidr=192.168.0.0/16
 
-
 ## set config to kube
 printf "\n\n[STEP] put file in config path"
 mkdir -p $vagrant_dir/.kube 
