@@ -18,3 +18,5 @@ sudo apt-cache madison docker-ce
 
 VERSION_STRING='17.03.0~ce-0~ubuntu-xenial'
 sudo apt-get install docker-ce=$VERSION_STRING -y
+
+sudo usermod -aG docker vagrant

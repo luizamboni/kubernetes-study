@@ -62,3 +62,10 @@ Nginx Example:[http://localhost:8001/api/v1/namespaces/default/services/nginx:80
 
 # Roadmap
 * generate certificates before run `kubeadm init`
+
+
+# nginx-ingress
+curl http://192.168.0.17/
+
+
+helm install  --generate-name stable/nginx-ingress
