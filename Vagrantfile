@@ -20,15 +20,23 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/xenial64"
 
-  # minimal, disk can be only increased.
   config.disksize.size = '5GB'
 
-  config.vm.provision "variables", type: "shell", inline: $set_environment_variables, run: "always"
+  config.vm.synced_folder "manifests/", "/home/vagrant/manifests/"
 
   config.vm.synced_folder "provisions/", "/home/vagrant/provisions/"
 
-  config.vm.provision "dependencies", type: "shell", inline: "/home/vagrant/provisions/commons/index.sh", privileged: true, run: "never"
+  config.vm.provision :dependencies, 
+      type: "shell", 
+      inline: "/home/vagrant/provisions/commons/index.sh", 
+      privileged: true, 
+      run: "never"
 
+
+  config.vm.provision :variables, 
+      type: "shell", 
+      inline: $set_environment_variables, 
+      run: "always"
 
   config.vm.define "master" do | m |    
     

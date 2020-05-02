@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo kubeadm join 192.168.99.20:6443 --token icdy68.op8oi8tgmf2lgz9n --discovery-token-ca-cert-hash sha256:471a59b92a7eec7353b90accc27b4cd9171e68363ee006989a0e29e5ab0e9023 --node-name master

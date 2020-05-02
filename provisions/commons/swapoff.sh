@@ -1,3 +1,3 @@
 #!/bin/bash
 
-swapoff -a
+sudo swapoff -a

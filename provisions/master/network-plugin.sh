@@ -2,10 +2,7 @@
 printf "\n\n[STEP] install network plugin"
 
 ## calico (works on amd64 acording)
-kubectl apply -f  $vagrant_dir/provisions/manifests/calico/rbac-kdd.yaml
-kubectl apply -f  $vagrant_dir/provisions/manifests/calico/calico.yaml
-# kubectl apply -f "https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml"
-# kubectl apply -f "https://docs.projectcalico.org/v3.1/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml"
+kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
 
 sleep 20
 

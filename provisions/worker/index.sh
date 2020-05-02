@@ -1,10 +1,8 @@
 #!/bin/bash
 
-sudo modprobe ip_vs ip_vs_rr ip_vs_wrr ip_vs_sh
+#!/bin/bash
+BASEDIR=$(dirname "$0")
 
-# join in the cluster 
-sudo kubeadm join $master_ip:6443 \
-        --token $token \
-        --discovery-token-unsafe-skip-ca-verification \
-        --node-name $HOSTNAME \
-        # --ignore-preflight-errors=all
+$BASEDIR/config.sh
+$BASEDIR/modules.sh
+sudo ./vagrant/join-cmd

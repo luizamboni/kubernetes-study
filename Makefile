@@ -9,7 +9,7 @@ build:
 
 restore:
 	vagrant snapshot restore master master_init_state --no-provision
-
+	
 clean:
 	vagrant destroy -f
 

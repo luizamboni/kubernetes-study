@@ -1,7 +1,7 @@
 #!/bin/bash
 printf "\n\n[STEP] create and start UI"
 # create and start UI
-kubectl create -f $vagrant_dir/provisions/manifests/kubernetes-dashboard.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
 
 # create account for UI
 kubectl create serviceaccount dashboard -n default
