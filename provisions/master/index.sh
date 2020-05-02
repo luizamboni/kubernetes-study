@@ -5,4 +5,4 @@ $BASEDIR/kubeadm.sh
 $BASEDIR/network-plugin.sh
 $BASEDIR/dashboard.sh
 $BASEDIR/up-dashboard.sh
-$BASEDIR/nginx-deployment.sh
+$BASEDIR/nginx-ingress.sh

@@ -15,3 +15,20 @@ clean:
 
 start-master:
 	vagrant provision master --provision-with start
+
+destroy-workers:
+	vagrant destroy worker-0 -f \
+	vagrant destroy worker-1 -f
+
+
+start-worker-0:
+	vagrant up worker-0 --no-provision && \
+	vagrant provision worker-0 --provision-with variables && \
+	vagrant provision worker-0 --provision-with dependencies && \
+	vagrant provision worker-0 --provision-with start
+
+start-worker-1:
+	vagrant up worker-1 --no-provision && \
+	vagrant provision worker-1 --provision-with variables && \
+	vagrant provision worker-1 --provision-with dependencies && \
+	vagrant provision worker-1 --provision-with start

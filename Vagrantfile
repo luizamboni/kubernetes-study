@@ -27,14 +27,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder "provisions/", "/home/vagrant/provisions/"
 
-
   config.vm.provision "dependencies", type: "shell", inline: "/home/vagrant/provisions/commons/index.sh", privileged: true, run: "never"
 
 
-  config.vm.define "master" do | m |
-
-    # m.vm.network "public_network", ip: "192.168.0.17", # bridge: "wlp2s0"
-    
+  config.vm.define "master" do | m |    
     
     m.vm.hostname = "master"
     m.vm.provider "virtualbox" do |vb|
@@ -49,7 +45,6 @@ Vagrant.configure("2") do |config|
     m.vm.network :forwarded_port, guest: 8001, host: 8001
     m.vm.network :forwarded_port, guest: 80, host: 8080, id: "nginx"
     m.vm.provision :start, type: "shell", inline: "/home/vagrant/provisions/master/index.sh", privileged: false, run: "never"
-
   end
 
   private_ip = $inital_private_ip
@@ -64,7 +59,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "worker-#{n}" do | m |
 
 
-      m.vm.hostname = "worker"
+      m.vm.hostname = node_name
       m.vm.provider "virtualbox" do |vb|
         vb.memory = 1024
         vb.cpus = 2
@@ -75,12 +70,10 @@ Vagrant.configure("2") do |config|
 
       m.vm.provision "start", 
                       type: "shell", 
-                      inline: "/home/vagrant/provisions/worker.sh",
+                      inline: "/home/vagrant/provisions/worker/index.sh",
                       privileged: false,
                       run: "never" 
     end
 
   end
 end
-
-# sudo kubeadm join 192.168.99.20:6443 --token icdy68.op8oi8tgmf2lgz9n  --discovery-token-unsafe-skip-ca-verification --node-name worker-1

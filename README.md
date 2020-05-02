@@ -48,24 +48,22 @@ $ make restore
 ```
 ## Destroy images and snapshots
 ```bash
-$ make restore
+$ make clean
 ```
 
 
 ## How to
 ### Acess internal service using kubernetes proxy:
-
-
 http://localhost:**PROXY_PORT**/api/v1/namespaces/**NAMESPACE**/services/**SERVICE**:**PORT**/proxy/
 
 Nginx Example:[http://localhost:8001/api/v1/namespaces/default/services/nginx:80/proxy/](http://localhost:8001/api/v1/namespaces/default/services/nginx:80/proxy/)
 
+### Use example of ingress
+
+Add cafe.example.com resolution to public ip addres in your /etc/hosts
+```shell
+$ sudo echo "192.168.0.17  cafe.example.com" >>  /etc/hosts
+```
+
 # Roadmap
 * generate certificates before run `kubeadm init`
-
-
-# nginx-ingress
-curl http://192.168.0.17/
-
-
-helm install  --generate-name stable/nginx-ingress
