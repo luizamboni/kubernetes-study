@@ -64,6 +64,11 @@ Add cafe.example.com resolution to public ip addres in your /etc/hosts
 ```shell
 $ sudo echo "192.168.0.17  cafe.example.com" >>  /etc/hosts
 ```
+or use curl forcing resolve domain to ip
+```shell
+$ curl -k --resolve cafe.example.com:172.42.42.100 https://cafe.example.com/coffee
+# -k option is to accept self sign certificate
+```
 
 # Roadmap
 * generate certificates before run `kubeadm init`

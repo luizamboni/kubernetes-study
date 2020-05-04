@@ -1,8 +1,8 @@
 require 'ipaddr'
 
 $token = "icdy68.op8oi8tgmf2lgz9n"
-$inital_private_ip = IPAddr.new("192.168.99.20")
-$initial_public_ip =  IPAddr.new("192.168.0.17")
+$inital_private_ip = IPAddr.new("172.42.42.100")
+$initial_public_ip =  IPAddr.new("172.42.42.100")
 workers = 2
 
 $vagrant_dir = "/home/vagrant"
@@ -47,7 +47,7 @@ Vagrant.configure("2") do |config|
     end
 
     m.disksize.size = '10GB'
-    m.vm.network :public_network , ip: $initial_public_ip.to_s
+    # m.vm.network :public_network , ip: $initial_public_ip.to_s
     m.vm.network :private_network, ip: $inital_private_ip.to_s
 
     m.vm.network :forwarded_port, guest: 8001, host: 8001
@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
       end
 
       m.vm.network :private_network, ip: private_ip.to_s
-      m.vm.network :public_network , ip: public_ip.to_s
+      # m.vm.network :public_network , ip: public_ip.to_s
 
       m.vm.provision "start", 
                       type: "shell", 
