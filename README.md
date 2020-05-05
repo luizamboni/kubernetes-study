@@ -70,5 +70,32 @@ $ curl -k --resolve cafe.example.com:172.42.42.100 https://cafe.example.com/coff
 # -k option is to accept self sign certificate
 ```
 
+# Volume Example
+has get in https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+apply the manifest
+
+```shell
+kubectl apply -f manifests/volume/local-volume.yaml
+```
+
+enter in pod and try access nginx
+
+```shell
+kubectl exec -it task-pv-pod -- /bin/bash
+...
+apt update && apt install curl -y
+curl localhost
+```
+
+the content tha you see is the file in provisions/valumes/index.html
+try change this file and see what happens :)
+
+
+```shell
+$ kubectl delete pod task-pv-pod
+$ kubectl delete pvc task-pv-claim
+$ kubectl delete pv task-pv-volume
+```
+
 # Roadmap
 * generate certificates before run `kubeadm init`
