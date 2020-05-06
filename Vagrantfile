@@ -53,6 +53,8 @@ Vagrant.configure("2") do |config|
     m.vm.network :forwarded_port, guest: 8001, host: 8001
     m.vm.network :forwarded_port, guest: 80, host: 8080, id: "nginx"
     m.vm.provision :start, type: "shell", inline: "/home/vagrant/provisions/master/index.sh", privileged: false, run: "never"
+    m.vm.provision :proxy, type: "shell", inline: "/home/vagrant/provisions/master/proxy.sh", privileged: false, run: "never"
+
   end
 
   private_ip = $inital_private_ip

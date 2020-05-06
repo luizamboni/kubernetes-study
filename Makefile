@@ -23,6 +23,9 @@ clean:
 start-master:
 	vagrant provision master --provision-with start
 
+start-proxy:
+	vagrant provision master --provision-with proxy
+
 destroy-workers:
 	vagrant destroy worker-0 -f \
 	vagrant destroy worker-1 -f
