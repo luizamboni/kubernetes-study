@@ -6,6 +6,7 @@ This project intent to up a little Kubernetes cluster environment in local machi
 # Table of Contents
 * [Dependencies](#dependencies)
 * [How use it](#how-use-it)
+* [Kubernetes entities](#kubernetes-entities)
 * [How To](#how-to)
 * [Roadmap](#roadmap)
 
@@ -51,6 +52,36 @@ $ make restore
 $ make clean
 ```
 
+# Kubernetes Entities
+
+## Cluster
+ - a set of nodes
+## node
+  - each machina in cluster
+
+## Pod
+- pod is a basic unit of work, it be one or more conteiners 
+- grouped for use of same resources as network interface and volumes.
+
+## Workloads
+### Services
+- group of pods based on a selector
+- can have a clusterIp 
+- pretend to be as act as a loadbancer
+- can be exposeds by
+  - nodePort
+  - loadBalancer (specific to clouds)
+  - externalName
+  - externalIp
+
+### Deployments
+- mantain n number of pods up across the cluster (by ReplicaSet)
+- control rollback or deployment strategies
+
+### DaemonSet
+- its like Deployments
+- but maintain a minimum number of pods across each cluster Node
+
 
 ## How to
 ### Acess internal service using kubernetes proxy:
@@ -70,7 +101,7 @@ $ curl -k --resolve cafe.example.com:172.42.42.100 https://cafe.example.com/coff
 # -k option is to accept self sign certificate
 ```
 
-# Volume Example
+### Volume Example
 has get in https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
 apply the manifest
 
@@ -95,6 +126,34 @@ try change this file and see what happens :)
 $ kubectl delete pod task-pv-pod
 $ kubectl delete pvc task-pv-claim
 $ kubectl delete pv task-pv-volume
+```
+
+# Network Model
+inside any pod you can access other pod directly by it ip and port service
+
+```shell
+$ wget -O - 192.168.219.77:8080
+# supose that 192.168.219.77 is a pod ip
+```
+
+can too access a service ip tha act as a load balancer
+```shell
+$ wget -O - 10.98.254.52:80
+# supose that 10.98.254.52 is a service clusterIp
+```
+
+using internal dns server to get a clusterIp of service
+
+```shell
+$ nslookup  coffee-svc.default.svc.cluster.local
+$ wget -O - coffee-svc.default.svc.cluster.local
+# or
+$ wget -O - coffee-svc.default.svc
+$ wget -O - coffee-svc.default
+$ wget -O - coffee-svc # if are in same namespace
+
+# if the service has other namespaces
+$ wget -O - nginx-ingress.nginx-ingress
 ```
 
 # Roadmap
