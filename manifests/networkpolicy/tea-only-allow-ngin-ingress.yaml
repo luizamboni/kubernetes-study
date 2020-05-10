@@ -1,0 +1,39 @@
+# only app:nginx-ingress can talk to app:tea
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: backend-access-ingress
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: tea
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            layer: ingress
+      - podSelector:
+          matchLabels:
+            app: nginx-ingress
+  egress:
+    - to:
+      - namespaceSelector:
+          matchLabels:
+            name: nginx-ingress
+      - podSelector:
+          matchLabels:
+            app: nginx-ingress
+  
+  ## deny all
+  # ingress: []
+  # egress: []
+
+  ## allow all
+  # ingress: 
+  #   - {}
+  # egress: 
+  #   - {}

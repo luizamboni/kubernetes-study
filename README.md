@@ -155,6 +155,29 @@ $ wget -O - coffee-svc # if are in same namespace
 # if the service has other namespaces
 $ wget -O - nginx-ingress.nginx-ingress
 ```
+## Using NetworkPolicy
+
+apply manifest policy that only allow
+traffic from app:nginx-ingress to app:tea 
+
+
+```shell
+# first add a label in nignx-ingress namespace
+# it is needed to be used in networ kpolicy
+$ kubectl label namespaces nginx-ingress layer=ingress
+
+$ apply -f manifests/networkpolicy/tea-only-allow-ngin-ingress.yaml
+```
+
+```shell
+$ kubectl delete networkpolicy backend-access-ingress  -n default
+```
+
+```
+$ kubectl exec -it nginx-ingress-29gr4  /bin/sh --namespace=nginx-ingress
+```
+
+
 
 # Roadmap
 * generate certificates before run `kubeadm init`
