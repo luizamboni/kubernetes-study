@@ -10,7 +10,6 @@ build:
 restore:
 	vagrant snapshot restore master master_init_state --no-provision
 
-
 start:
 	vagrant up
 
@@ -25,6 +24,9 @@ start-master:
 
 start-proxy:
 	vagrant provision master --provision-with proxy
+
+uitoken:
+	vagrant provision master --provision-with ui-token
 
 destroy-workers:
 	vagrant destroy worker-0 -f \
