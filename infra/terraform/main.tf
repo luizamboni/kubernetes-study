@@ -1,6 +1,5 @@
 locals {
     cluster_name = "eks_cluster_1"
-    vpc_id = "vpc-9d271ffa"
 }
 
 terraform {
@@ -10,16 +9,6 @@ terraform {
       version = "~> 3.40"
     }
   }
-}
-
-data "aws_subnet" "one" {
-  vpc_id = local.vpc_id
-  availability_zone = "us-east-1a"
-}
-
-data "aws_subnet" "two" {
-  vpc_id = local.vpc_id
-  availability_zone = "us-east-1b"
 }
 
 
