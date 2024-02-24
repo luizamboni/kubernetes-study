@@ -39,7 +39,7 @@ AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Than you can run:
 
 ```shell
-make play # to verify
+make plan # to check deployment plan
 make deploy # to deploy
 make destroy # to destroy
 ```
