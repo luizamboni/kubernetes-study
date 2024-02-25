@@ -23,7 +23,7 @@ plan: init
 	hashicorp/terraform:1.7 \
 	plan
 
-deploy: plan
+deploy-eks: plan
 	docker run \
 	-v $(shell pwd)/infra/terraform/:/workspace \
 	-w /workspace \
@@ -34,7 +34,8 @@ deploy: plan
 	hashicorp/terraform:1.7 \
 	apply --auto-approve
 
-destroy: plan
+
+destroy-eks: plan
 	docker run \
 	-v $(shell pwd)/infra/terraform/:/workspace \
 	-w /workspace \
