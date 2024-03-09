@@ -46,10 +46,55 @@ make destroy # to destroy
 
 After that, you must configure your `kubectl` with the created cluster data.
 ```shell
-aws eks update-kubeconfig --name "eks_cluster_1"
+aws eks update-kubeconfig --name "my-eks" 
 ```
 
-So, now you can access this cluster through `kubectl`
+Now, we create a echoserver to test ingress with the aws-load-balancer-controller.
+
 ```shell
-kubectl get nodes
+kubectl apply -f infra/terraform/totorial/k8s/echoserver.yaml 
 ```
+
+If it was successful an loadbacancer will be created on demand for the ingress.
+Now we have to wait that loadBalancer has a endpoint to create a CNAME registry pointing to it.
+In my case the cname will be `echo.4developments.net.` because my registered domain is `4developments.net` but you have to adapt and create your own.
+
+```shell
+curl http://echo.4developments.net
+```
+
+
+### Using k3d
+```shell
+k3d cluster delete
+
+# to use ingress
+# you have to forwards http traffic from localhost:80 to the Ingress controller
+k3d cluster create mycluster \
+    --api-port 6550 \
+    --port "80:80@loadbalancer"   \
+    --agents 2
+
+```
+
+
+Some basic commands for helping debug
+```shell
+# to see nodes health
+kubectl get nodes 
+
+# getting first pod name (you will need to filter to be more specific)
+kubectl $(kubectl get pods -ojson | jq -r '.items[0].metadata.name')
+
+# binding ports in a pod
+kubectl port-forward $(kubectl get pods -ojson | jq -r '.items[0].metadata.name') 8080:3000
+
+# tail logs from a specific pod (the first one here)
+kubectl logs -f $(kubectl get pods -ojson | jq -r '.items[0].metadata.name')
+```
+
+Applying a manifest for deploy a service using loadbalancer ingress in k3d
+```shell
+kubectl apply -f deployment.yaml
+```
+
