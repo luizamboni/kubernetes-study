@@ -7,6 +7,11 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%
+=begin%>
+ <%= stylesheet_link_tag params[:controller] %> 
+<%
+=end%>
     <%= javascript_importmap_tags %>
   </head>
 
