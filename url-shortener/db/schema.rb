@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_29_003940) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_29_012611) do
+  create_table "click_statistics", force: :cascade do |t|
+    t.integer "link_id", null: false
+    t.date "period"
+    t.integer "occurences"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["link_id"], name: "index_click_statistics_on_link_id"
+  end
+
   create_table "clicks", force: :cascade do |t|
     t.integer "link_id", null: false
     t.string "user_agent"
@@ -24,7 +33,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_29_003940) do
     t.string "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["url_hash"], name: "index_links_on_url_hash", unique: true
   end
 
+  add_foreign_key "click_statistics", "links"
   add_foreign_key "clicks", "links"
 end

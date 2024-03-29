@@ -11,17 +11,19 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :url_hash, style: "display: block" %>
-    <%= form.text_field :url_hash %>
-  </div>
 
   <div>
     <%= form.label :url, style: "display: block" %>
-    <%= form.text_field :url %>
+    <%= form.text_field :url, :disabled => link.id %>
   </div>
+  <% if link.id %>
+  <div>
+    <%= form.label :url_hash, style: "display: block" %>
+    <%= form.text_field :url_hash, :disabled => true %>
+  </div>
+  <% end %>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit if !link.id %>
   </div>
 <% end %>
