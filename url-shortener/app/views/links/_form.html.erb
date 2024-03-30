@@ -11,19 +11,18 @@
     </div>
   <% end %>
 
-
   <div>
-    <%= form.label :url, style: "display: block" %>
-    <%= form.text_field :url, :disabled => link.id %>
+    <%= form.text_field :url, :disabled => link.id, placeholder: "Paste here your url" %>
   </div>
-  <% if link.id %>
   <div>
-    <%= form.label :url_hash, style: "display: block" %>
-    <%= form.text_field :url_hash, :disabled => true %>
-  </div>
-  <% end %>
 
-  <div>
-    <%= form.submit if !link.id %>
+    <%= form.submit "Shortenize it !" , :disabled => link.id %>
+
+  </div>
+<% end %>
+
+<% if link.url_hash %>
+  <div id="shortened_url">
+    <a target="_blank" href="<%= redirect_url_for_hash link.url_hash %>"><%= redirect_url_for_hash link.url_hash %></a>
   </div>
 <% end %>

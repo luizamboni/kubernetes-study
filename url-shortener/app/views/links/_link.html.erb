@@ -1,12 +1,12 @@
-<div id="<%= dom_id link %>">
-  <p>
-    <strong>Url hash:</strong>
-    <%= link.url_hash %>
-  </p>
-
-  <p>
-    <strong>Url:</strong>
-    <%= link.url %>
-  </p>
-
-</div>
+<%= turbo_frame_tag dom_id(link) do %>
+  <article>
+    <p>
+      <small>Original Url:</small><br>
+      <a href="<%= link.url %>"><%= link.url %></a>
+    </p>
+    <p>
+      <small>Shortened Url:</small><br>
+      <a target="_blank" href="<%= redirect_url_for_hash link.url_hash %>"><%= redirect_url_for_hash link.url_hash %></a>
+    </p>
+  </article>
+<% end %>

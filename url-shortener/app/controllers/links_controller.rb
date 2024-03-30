@@ -6,10 +6,6 @@ class LinksController < ApplicationController
     @links = Link.all
   end
 
-  # GET /links/1 or /links/1.json
-  def show
-  end
-
   # GET /links/new
   def new
     @link = Link.new
@@ -25,8 +21,8 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       if @link.save
-        format.html { redirect_to link_url(@link), notice: "Link was successfully created." }
-        format.json { render :show, status: :created, location: @link }
+        format.html { redirect_to edit_link_url(@link), notice: "Link was successfully created." }
+        format.json { render :edit, status: :created, location: @link }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @link.errors, status: :unprocessable_entity }
@@ -39,7 +35,7 @@ class LinksController < ApplicationController
     respond_to do |format|
       if @link.update(link_params)
         format.html { redirect_to link_url(@link), notice: "Link was successfully updated." }
-        format.json { render :show, status: :ok, location: @link }
+        format.json { render :edit, status: :ok, location: @link }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @link.errors, status: :unprocessable_entity }

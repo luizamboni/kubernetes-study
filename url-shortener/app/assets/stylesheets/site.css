@@ -1,3 +1,27 @@
 input[type="text"] {
     width: 100%;
+    min-width: 300px;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+form div {
+    margin: 10px 5px;
+}
+
+#shortened_url {
+    text-align: center !important;
+    margin: 20px;
+}
+
+.main {
+    margin-top: 10px;
+    padding-top: 50px;
+}
+p {
+    margin: 0px;
+    font-size: 12px;
 }
