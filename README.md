@@ -66,7 +66,7 @@ curl http://echo.4developments.net
 
 ### Using k3d
 ```shell
-k3d cluster delete
+k3d cluster delete mycluster
 
 # to use ingress
 # you have to forwards http traffic from localhost:80 to the Ingress controller
@@ -75,9 +75,14 @@ k3d cluster create mycluster \
     --port "80:80@loadbalancer"   \
     --agents 2
 
+
+k3d kubeconfig merge mycluster
 ```
-
-
+if you need to delete old cluster config
+```shell
+kubectl config get-clusters
+kubectl config delete-cluster CLUSTER_NAME
+```
 Some basic commands for helping debug
 ```shell
 # to see nodes health
