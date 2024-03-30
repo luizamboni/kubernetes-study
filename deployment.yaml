@@ -1,9 +1,10 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: url-shortener
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: url-shortener
@@ -14,7 +15,6 @@ spec:
     spec:
       containers:
         - name: url-shortener
-          # image: public.ecr.aws/p6g1c2o3/url-shortener:latest
           image: public.ecr.aws/p6g1c2o3/arm64/url-shortener:latest
           ports:
             - containerPort: 3000
@@ -24,7 +24,17 @@ spec:
             - name: SECRET_KEY_BASE
               value: "your_secret_key_here"
             - name: REDIS_URL
-              value: "redis://redis-service:6379" 
+              value: "redis://redis-service:6379"
+          volumeMounts:
+            - name: url-shortener-storage
+              mountPath: /rails/storage 
+# to see it
+# kubectl exec url-shortener-7b499dd8fd-pbxqg -- /bin/bash -c "ls /rails/storage/"
+
+      volumes:
+        - name: url-shortener-storage
+          persistentVolumeClaim:
+            claimName: url-shortener-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -37,23 +47,6 @@ spec:
     - port: 80          # This is the port on which the service is exposed inside the cluster. Other pods within the cluster can access the service on this port.
       targetPort: 3000  # 3000  This specifies the port on the pod to which the service should forward traffic. This should match the port your application is listening on inside its container.
   type: LoadBalancer
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: example-ingress
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: url-shortener
-            port:
-              number: 80
   
 ---
 # Redis
